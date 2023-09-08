@@ -7,7 +7,8 @@
 
 void UInputReactiveCameraComponent::Setup_Implementation(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent)
 {
-	Super::Setup_Implementation(InSpringArmComponent, InCameraComponent);
+	SpringArmComponent = InSpringArmComponent;
+	CameraComponent = InCameraComponent;
 
 	if(SpringArmComponent->IsValidLowLevel())
 	{

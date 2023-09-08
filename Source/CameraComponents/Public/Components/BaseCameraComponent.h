@@ -16,13 +16,26 @@ public:
 	// Sets default values for this component's properties
 	UBaseCameraComponent();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void Setup(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent);
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+#if WITH_EDITORONLY_DATA
+	/////////////////
+	// Begin Debug //
+	/////////////////
 protected:
-	UPROPERTY(BlueprintReadOnly)
-	USpringArmComponent* SpringArmComponent;
+	UPROPERTY(EditAnywhere)
+	bool bDebug = false;
 
-	UPROPERTY(BlueprintReadOnly)
-	UCameraComponent* CameraComponent;
+	virtual void DebugTick(const float DeltaTime) {};
+	///////////////
+	// End Debug //
+	///////////////
+#endif
+
+	UPROPERTY()
+	float LastDeltaTime = 0.0f;
+	
+	UPROPERTY()
+	AActor* Owner;
 };

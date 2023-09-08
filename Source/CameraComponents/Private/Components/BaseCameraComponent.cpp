@@ -3,16 +3,34 @@
 
 #include "Components/BaseCameraComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values for this component's properties
 UBaseCameraComponent::UBaseCameraComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UBaseCameraComponent::Setup_Implementation(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent)
+void UBaseCameraComponent::BeginPlay()
 {
-	SpringArmComponent = InSpringArmComponent;
-	CameraComponent = InCameraComponent;
+	Super::BeginPlay();
+
+	Owner = GetOwner();
+}
+
+void UBaseCameraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
+                                         FActorComponentTickFunction* ThisTickFunction)
+{
+	LastDeltaTime = DeltaTime;
+	
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+#if WITH_EDITORONLY_DATA
+	if(bDebug)
+	{
+		DebugTick(DeltaTime);
+	}
+#endif
 }
