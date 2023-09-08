@@ -16,7 +16,8 @@ class CAMERACOMPONENTS_API UInputReactiveCameraComponent : public UBaseCameraCom
 	GENERATED_BODY()
 
 public:
-	virtual void Setup_Implementation(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent) override;
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void Setup(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void HandleX(const float Value, const bool bApplyToCamera = true);
@@ -34,6 +35,12 @@ protected:
 	}
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
+	USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(BlueprintReadOnly)
+	UCameraComponent* CameraComponent;
+	
 	UPROPERTY(BlueprintReadOnly)
 	float InitialTargetArmLength;
 
