@@ -1,23 +1,25 @@
-//Copyright to Kat Code Labs, SRL. All Rights Reserved.
+// Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/BaseCameraComponent.h"
-#include "Data/RotationConstraint.h"
+#include "..\Data\ValueConstraint.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "RotationCameraComponent.generated.h"
 
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class CAMERACOMPONENTS_API URotationCameraComponent : public UBaseCameraComponent
 {
 	GENERATED_BODY()
 
 public:
-	virtual void BeginPlay() override; 
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	virtual void Setup_Implementation(USceneComponent* InTargetComponent) override;
 	
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void ResetRotationOffset()
@@ -49,9 +51,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE void SetActiveConstraints(const bool bPitch, const bool bYaw, const bool bRoll)
 	{
-		PitchConstraint.bConstrainRotation = bPitch;
-		YawConstraint.bConstrainRotation = bYaw;
-		RollConstraint.bConstrainRotation = bRoll;
+		PitchConstraint.bConstrainMinimum = bPitch;
+		YawConstraint.bConstrainMinimum = bYaw;
+		RollConstraint.bConstrainMinimum = bRoll;
 	}
 	
 	/////////////////
@@ -84,7 +86,7 @@ protected:
 	}
 
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category="Constraints")
-	FRotationConstraint PitchConstraint;
+	FValueConstraint PitchConstraint;
 	///////////////
 	// End Pitch //
 	///////////////
@@ -119,7 +121,7 @@ protected:
 	}
 
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category="Constraints")
-	FRotationConstraint YawConstraint;
+	FValueConstraint YawConstraint;
 	/////////////
 	// End Yaw //
 	/////////////
@@ -154,7 +156,7 @@ protected:
 	}
 	
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category="Constraints")
-	FRotationConstraint RollConstraint;
+	FValueConstraint RollConstraint;
 	//////////////
 	// End Roll //
 	//////////////
@@ -164,13 +166,13 @@ protected:
 	virtual void DebugTick(const float DeltaTime) override;
 #endif
 	
-public: // TODO Refactor to protected?
-	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere)
-	float RotateSpeed = 100.0f;
-	
-	UPROPERTY(Interp, BlueprintReadOnly)
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintSetter=SetDesiredRotation)
 	FRotator DesiredRotation = FRotator::ZeroRotator;
 	
-	UPROPERTY(Interp, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintSetter=SetDesiredRotationOffset)
 	FRotator DesiredRotationOffset = FRotator::ZeroRotator;
+	
+	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere)
+	float RotationSpeed = 90.0f;
 };

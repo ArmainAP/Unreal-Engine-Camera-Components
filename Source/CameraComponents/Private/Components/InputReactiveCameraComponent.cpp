@@ -1,25 +1,9 @@
-//Copyright to Kat Code Labs, SRL. All Rights Reserved.
+// Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
 
 #include "Components/InputReactiveCameraComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
-void UInputReactiveCameraComponent::Setup_Implementation(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent)
-{
-	SpringArmComponent = InSpringArmComponent;
-	CameraComponent = InCameraComponent;
-
-	if(SpringArmComponent->IsValidLowLevel())
-	{
-		InitialTargetArmLength = SpringArmComponent->TargetArmLength;
-	}
-
-	if(CameraComponent)
-	{
-		InitialCameraFOV = CameraComponent->FieldOfView;
-	}
-}
 
 void UInputReactiveCameraComponent::HandleZoom_Implementation(FVector2D Input, bool bRequireBothInputs)
 {
@@ -66,4 +50,21 @@ void UInputReactiveCameraComponent::HandleY_Implementation(float Value, bool bAp
 	const FRotator TargetRotation = FRotator(CurrentRotation.Pitch, Offset2D.Y * Value, CurrentRotation.Roll);
 	const FRotator NewRotation = FMath::RInterpTo(CurrentRotation, TargetRotation, DeltaTime, InterpolationSpeed.Y);
 	Component->SetRelativeRotation(NewRotation);
+}
+
+void UInputReactiveCameraComponent::SetupInputReactiveCamera_Implementation(USpringArmComponent* InSpringArmComponent,
+	UCameraComponent* InCameraComponent)
+{
+	SpringArmComponent = InSpringArmComponent;
+	CameraComponent = InCameraComponent;
+
+	if(SpringArmComponent->IsValidLowLevel())
+	{
+		InitialTargetArmLength = SpringArmComponent->TargetArmLength;
+	}
+
+	if(CameraComponent)
+	{
+		InitialCameraFOV = CameraComponent->FieldOfView;
+	}
 }

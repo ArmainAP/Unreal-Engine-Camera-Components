@@ -1,4 +1,4 @@
-//Copyright to Kat Code Labs, SRL. All Rights Reserved.
+// Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
 
 #include "Components/BaseCameraComponent.h"
@@ -17,7 +17,10 @@ void UBaseCameraComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Owner = GetOwner();
+	if(!IsValid(TargetComponent))
+	{
+		TargetComponent = GetOwner()->GetRootComponent();
+	}
 }
 
 void UBaseCameraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
@@ -27,10 +30,13 @@ void UBaseCameraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-#if WITH_EDITORONLY_DATA
 	if(bDebug)
 	{
 		DebugTick(DeltaTime);
 	}
-#endif
+}
+
+void UBaseCameraComponent::Setup_Implementation(USceneComponent* InTargetComponent)
+{
+	TargetComponent = InTargetComponent;
 }

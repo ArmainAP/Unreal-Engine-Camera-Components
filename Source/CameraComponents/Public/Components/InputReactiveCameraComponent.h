@@ -1,4 +1,4 @@
-//Copyright to Kat Code Labs, SRL. All Rights Reserved.
+// Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
 #pragma once
 
@@ -17,7 +17,7 @@ class CAMERACOMPONENTS_API UInputReactiveCameraComponent : public UBaseCameraCom
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	void Setup(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent);
+	void SetupInputReactiveCamera(USpringArmComponent* InSpringArmComponent, UCameraComponent* InCameraComponent);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void HandleX(const float Value, const bool bApplyToCamera = true);

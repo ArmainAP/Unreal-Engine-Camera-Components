@@ -1,4 +1,4 @@
-//Copyright to Kat Code Labs, SRL. All Rights Reserved.
+// Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
 #pragma once
 
@@ -18,24 +18,25 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-#if WITH_EDITORONLY_DATA
-	/////////////////
-	// Begin Debug //
-	/////////////////
-protected:
-	UPROPERTY(EditAnywhere)
-	bool bDebug = false;
-
 	virtual void DebugTick(const float DeltaTime) {};
-	///////////////
-	// End Debug //
-	///////////////
-#endif
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void Setup(USceneComponent* InTargetComponent);
+
+public:
+	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category=Lag)
+	bool bApplyLag = false;
+
+	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category=Lag)
+	float LagSpeed = 5.0f;
+
+protected:
 	UPROPERTY()
 	float LastDeltaTime = 0.0f;
 	
 	UPROPERTY()
-	AActor* Owner;
+	USceneComponent* TargetComponent;
+
+	UPROPERTY(EditAnywhere, Category=Debug)
+	bool bDebug = false;
 };
