@@ -16,8 +16,5 @@ class CAMERACOMPONENTS_API UCameraHelpersFunctionLibrary : public UBlueprintFunc
 
 public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	static float ScaleValue(const float Value, const float Scale, const float Min, const float Max);
-
-	UFUNCTION(BlueprintCallable, BlueprintPure)
 	static float ClampValue(const float Value, const bool ConstrainMinimum, const float Minimum, const bool ConstrainMaximum, const float Maximum, const bool ReverseRestrictions = false);
 };

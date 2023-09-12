@@ -3,12 +3,6 @@
 
 #include "CameraHelpersFunctionLibrary.h"
 
-float UCameraHelpersFunctionLibrary::ScaleValue(const float Value, const float Scale, const float Min, const float Max)
-{
-	const float ScaleMultiplier = Max > 0 ? FMath::Clamp(Scale, Min, Max) : FMath::Max(Scale, Min); 
-	return Value * ScaleMultiplier;
-}
-
 float UCameraHelpersFunctionLibrary::ClampValue(const float Value, const bool ConstrainMinimum, const float Minimum,
 	const bool ConstrainMaximum, const float Maximum, const bool ReverseRestrictions)
 {

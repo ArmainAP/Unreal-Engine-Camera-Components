@@ -18,6 +18,7 @@ class CAMERACOMPONENTS_API URotationCameraComponent : public UBaseCameraComponen
 
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void DebugTick(const float DeltaTime) override;
 
 	virtual void Setup_Implementation(USceneComponent* InTargetComponent) override;
 	
@@ -160,11 +161,6 @@ protected:
 	//////////////
 	// End Roll //
 	//////////////
-	
-#if WITH_EDITORONLY_DATA
-protected:
-	virtual void DebugTick(const float DeltaTime) override;
-#endif
 	
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintSetter=SetDesiredRotation)

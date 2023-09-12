@@ -44,7 +44,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	FVector DesiredLocation = FVector::ZeroVector;
 
-	UPROPERTY(SaveGame, BlueprintReadWrite, EditDefaultsOnly, meta = (ClampMin = "0.0", UIMin = "0.0"))
+	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0"))
 	float MovementSpeed = 100.0f;
 	
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category="Constraints")
