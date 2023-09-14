@@ -41,11 +41,20 @@ public:
 	UFUNCTION(BlueprintPure, BlueprintNativeEvent)
 	float GetMovementScale();
 
+	UFUNCTION(BlueprintCallable, BlueprintPure, BlueprintNativeEvent)
+	float GetTerrainHeightAdaptationValue();
+
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 	FVector DesiredLocation = FVector::ZeroVector;
 
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0"))
 	float MovementSpeed = 100.0f;
+
+	UPROPERTY()
+	bool bTerrainHeightAdaptation = false;
+
+	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, meta = (ClampMin = "0.0", UIMin = "0.0"), meta=(EditCondition="bTerrainHeightAdaptation"))
+	float DesiredGroundDistance = 100.0f;
 	
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category="Constraints")
 	FValueConstraint ConstraintX;

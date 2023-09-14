@@ -1,8 +1,9 @@
 // Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
 
-#include "Components/LocationCameraComponent.h"
+#include "Components/Movement/LocationCameraComponent.h"
 
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -16,6 +17,13 @@ void ULocationCameraComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if(bTerrainHeightAdaptation)
+	{
+		const float NewZ = GetTerrainHeightAdaptationValue();
+		const FVector NewLocation = FVector(DesiredLocation.X, DesiredLocation.Y, NewZ);
+		SetDesiredLocation(NewLocation);
+	}
 
 	if(bApplyLag)
 	{
@@ -106,4 +114,22 @@ float ULocationCameraComponent::GetMovementScale_Implementation()
 	}
 	
 	return GroundLevel / ScalingDistanceReference;
+}
+
+float ULocationCameraComponent::GetTerrainHeightAdaptationValue_Implementation()
+{
+	FHitResult HitResult;
+	const FVector End = DesiredLocation - FVector::UpVector * TNumericLimits<float>::Max();
+	UKismetSystemLibrary::LineTraceSingleForObjects(GetWorld(), DesiredLocation, End, TraceGroundChannels, true, {},
+													bDebug ? EDrawDebugTrace::ForOneFrame : EDrawDebugTrace::None,
+													HitResult, true);
+
+	
+	if (HitResult.bBlockingHit)
+	{
+		//if (DesiredLocation.Z - HitResult.ImpactPoint.Z != KINDA_SMALL_NUMBER)
+			return HitResult.ImpactPoint.Z + DesiredGroundDistance;
+	}
+	
+	return DesiredLocation.Z;
 }

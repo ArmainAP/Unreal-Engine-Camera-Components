@@ -23,6 +23,16 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void Setup(USceneComponent* InTargetComponent);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FORCEINLINE FVector GetTargetComponentLocation() const
+	{
+		if(!IsValid(TargetComponent))
+		{
+			return FVector::ZeroVector;
+		}
+		return TargetComponent->GetComponentLocation();
+	}
+
 public:
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category=Lag)
 	bool bApplyLag = false;

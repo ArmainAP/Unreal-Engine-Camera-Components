@@ -13,5 +13,19 @@ UCLASS()
 class CAMERACOMPONENTS_API UCameraComponentsFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-	
+
+public:
+	UFUNCTION(BlueprintCallable)
+	static void RotateYawAroundPivot(URotationCameraComponent* InRotationCameraComponent, ULocationCameraComponent* InLocationCameraComponent, const FVector Pivot, const float Value);
+
+	UFUNCTION(BlueprintCallable)
+	static void RotatePitchAroundPivot(URotationCameraComponent* InRotationCameraComponent, ULocationCameraComponent* InLocationCameraComponent, const FVector Pivot, const float Value);
+
+	UFUNCTION(BlueprintCallable)
+	static void ZoomAtLocation(ULocationCameraComponent* InLocationCameraComponent, float Value, const FVector Location);
+
+	UFUNCTION(BlueprintCallable)
+	static void FocusOnActor(URotationCameraComponent* InRotationCameraComponent,
+	                  ULocationCameraComponent* InLocationCameraComponent, const AActor* TargetActor,
+	                  float DistanceMultiplier = 1.0f);
 };

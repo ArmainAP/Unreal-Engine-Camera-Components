@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/BaseCameraComponent.h"
-#include "..\Data\ValueConstraint.h"
+#include "Data/ValueConstraint.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "RotationCameraComponent.generated.h"
 

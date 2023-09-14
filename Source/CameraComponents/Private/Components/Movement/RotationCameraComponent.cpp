@@ -1,6 +1,6 @@
 // Copyright to Kat Code Labs, SRL. All Rights Reserved.
 
-#include "Components/RotationCameraComponent.h"
+#include "Components/Movement/RotationCameraComponent.h"
 
 void URotationCameraComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	FActorComponentTickFunction* ThisTickFunction)
