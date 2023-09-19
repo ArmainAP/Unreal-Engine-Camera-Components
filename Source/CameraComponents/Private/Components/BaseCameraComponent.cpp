@@ -19,7 +19,7 @@ void UBaseCameraComponent::BeginPlay()
 
 	if(!IsValid(TargetComponent))
 	{
-		TargetComponent = GetOwner()->GetRootComponent();
+		Setup_Implementation(GetOwner()->GetRootComponent());
 	}
 }
 

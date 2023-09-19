@@ -33,6 +33,12 @@ public:
 		return TargetComponent->GetComponentLocation();
 	}
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FORCEINLINE FVector InverseTransformVectorNoScale(const FVector& InWorldVector) const
+	{
+		return TargetComponent->GetComponentTransform().InverseTransformVectorNoScale(InWorldVector);
+	}
+
 public:
 	UPROPERTY(SaveGame, BlueprintReadWrite, EditAnywhere, Category=Lag)
 	bool bApplyLag = false;

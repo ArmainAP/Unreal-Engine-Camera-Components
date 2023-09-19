@@ -25,6 +25,9 @@ public:
 	static void ZoomAtLocation(ULocationCameraComponent* InLocationCameraComponent, float Value, const FVector Location);
 
 	UFUNCTION(BlueprintCallable)
+	static void ZoomAtMousePosition(ULocationCameraComponent* InLocationCameraComponent, float Value, APlayerController* PlayerController);
+
+	UFUNCTION(BlueprintCallable)
 	static void FocusOnActor(URotationCameraComponent* InRotationCameraComponent,
 	                  ULocationCameraComponent* InLocationCameraComponent, const AActor* TargetActor,
 	                  float DistanceMultiplier = 1.0f);

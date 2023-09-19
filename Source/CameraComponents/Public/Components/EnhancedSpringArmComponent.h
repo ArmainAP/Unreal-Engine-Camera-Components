@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType, meta=(BlueprintSpawnableComponent))
 class CAMERACOMPONENTS_API UEnhancedSpringArmComponent : public USpringArmComponent
 {
 	GENERATED_BODY()

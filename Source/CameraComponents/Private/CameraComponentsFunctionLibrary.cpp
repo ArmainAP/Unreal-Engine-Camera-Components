@@ -48,10 +48,31 @@ void UCameraComponentsFunctionLibrary::ZoomAtLocation(ULocationCameraComponent* 
 		return;
 	}
 
-	const FVector CameraLocation = UGameplayStatics::GetPlayerCameraManager(InLocationCameraComponent, 0)->GetCameraLocation();
-	FVector Direction = Location - CameraLocation;
-	Direction.Normalize();
-	InLocationCameraComponent->Move(Direction * Value);
+	// Get the camera manager
+	const APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(InLocationCameraComponent, 0);
+	const FVector CameraLocation = CameraManager->GetCameraLocation();
+
+	// Compute the world direction towards the target location
+	FVector WorldDirection = Location - CameraLocation;
+	WorldDirection.Normalize();
+
+	// Convert the world direction to a direction in the local space of the TargetComponent
+	const FVector LocalDirection = InLocationCameraComponent->InverseTransformVectorNoScale(WorldDirection);
+	
+	// Move the camera component
+	InLocationCameraComponent->Move(LocalDirection * Value);
+}
+
+
+void UCameraComponentsFunctionLibrary::ZoomAtMousePosition(ULocationCameraComponent* InLocationCameraComponent, float Value,
+	APlayerController* PlayerController)
+{
+	if (!IsValid(PlayerController)) return;
+
+	FHitResult HitResult;
+	PlayerController->GetHitResultUnderCursor(ECC_Visibility, true, HitResult);
+	
+	ZoomAtLocation(InLocationCameraComponent, Value, HitResult.ImpactPoint);
 }
 
 void UCameraComponentsFunctionLibrary::FocusOnActor(URotationCameraComponent* InRotationCameraComponent, ULocationCameraComponent* InLocationCameraComponent, const AActor* TargetActor,  const float DistanceMultiplier)
